@@ -46,7 +46,7 @@ dotER er = graph' $ do
             , A.Style [A.SItem A.Dashed []] -- easier to read labels, maybe?
             ]
   forM_ (entities er) $ \e ->
-    node (name e) [toLabel (htmlEntity e)]
+    node (name e)  [toLabel (htmlEntity e)]
   forM_ (rels er) $ \r -> do
     let opts = roptions r
     let rlab = A.HtmlLabel . H.Text . htmlFont opts . L.pack . show
@@ -70,7 +70,7 @@ htmlEntity e = H.Table H.HTable
 -- | Converts a single attribute to an HTML table row.
 htmlAttr :: ER.Attribute -> H.Row
 htmlAttr a = H.Cells [cell]
-  where cell = H.LabelCell cellAttrs (H.Text $ withLabelFmt " [%s]" opts name)
+  where cell = H.LabelCell cellAttrs (H.Text $ withLabelFmt "  [%s]" opts name)
         name = fkfmt $ pkfmt $ htmlFont opts (field a)
         pkfmt s = if pk a then [H.Format H.Underline s] else s
         fkfmt s = if fk a then [H.Format H.Italics s] else s
